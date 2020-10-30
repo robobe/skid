@@ -236,7 +236,7 @@ void GstCameraPlugin::Load(sensors::SensorPtr sensor, sdf::ElementPtr sdf)
 #endif
 
  if (!isfinite(this->rate)) {
-   this->rate =  60.0;
+   this->rate =  20.0;
  }
 
   if (sdf->HasElement("robotNamespace"))

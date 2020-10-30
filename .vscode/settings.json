@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.urdf": "xml",
+        "*.sdf": "xml",
+        "iostream": "cpp"
+    }
+}
