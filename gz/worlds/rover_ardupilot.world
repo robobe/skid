@@ -20,7 +20,7 @@
       <max_step_size>0.0025</max_step_size>
     </physics>
 
-      <include>
+    <include>
       <uri>model://sun</uri>
     </include>
 
@@ -79,6 +79,15 @@
       </link>
     </model>
 
+    <model name="calibration_board">
+      <pose>1.5 0 1 0 0 0 </pose>
+      <static>1</static>
+      <include>
+        <uri>model://calibration_board</uri>
+        <pose>0 0 3 1.57 1.57 0</pose>
+      </include>
+    </model>
+
     <model name="skid">
       <pose>1.5 0 0 0 0 0 </pose>
       <include>
@@ -88,4 +97,18 @@
     </model>
 
   </world>
+
+  <light name="spot" type="directional">
+    <cast_shadows>false</cast_shadows>
+    <pose>0 0 -1 0 0 0</pose>
+    <diffuse>1 1 1 1</diffuse>
+    <specular>1 1 1 1</specular>
+    <attenuation>
+      <range>1000</range>
+      <constant>0.9</constant>
+      <linear>0.01</linear>
+      <quadratic>0.001</quadratic>
+    </attenuation>
+    <direction>0 0. 1</direction>
+  </light>
 </sdf>
