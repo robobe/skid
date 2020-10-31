@@ -14,8 +14,8 @@ int main()
     }
 
 	VideoWriter writer(
-		// "appsrc ! videoconvert ! video/x-raw,format=YUY2,width=640,height=480,framerate=30/1 ! jpegenc ! rtpjpegpay ! udpsink host=127.0.0.1 port=5000", 
-        "appsrc ! videoconvert ! video/x-raw,format=YUY2,width=640,height=480,framerate=20/1 ! v4l2sink device=/dev/video4",
+		"appsrc ! videoconvert ! video/x-raw,format=YUY2,width=640,height=480,framerate=20/1 ! jpegenc ! rtpjpegpay ! udpsink host=127.0.0.1 port=5000", 
+        //"appsrc ! videoconvert ! video/x-raw,format=YUY2,width=640,height=480,framerate=20/1 ! v4l2sink device=/dev/video4",
         0,		// fourcc 
 		20,		// fps
 		Size(640, 480), 

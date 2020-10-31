@@ -7,7 +7,7 @@
                 "/usr/include/gazebo-11",
                 "/usr/include/ignition/transport8",
                 "/usr/include/sdformat-9.3",
-                "/usr/include/opencv4",
+                "/usr/include/opencv4/**",
                 "/usr/include/ignition/math6",
                 "/usr/include/ignition/fuel_tools4",
                 "/usr/include/ignition/common3",
