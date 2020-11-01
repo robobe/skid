@@ -7,21 +7,22 @@ from fcu import context
 log = logging.getLogger(__name__)
 
 
-class tracker(metaclass=SingletonMeta):
+class vehicle(metaclass=SingletonMeta):
     def __init__(self):
-        self.__ctx = context.context()
-        
+        ctx = context.context()
+        print(id(ctx))
+        ctx.on_tracker_resolved += self.__tracker_handler
 
     def start(self):
         t = threading.Thread(target=self.__run)
         t.setDaemon(True)
-        t.setName("TrackerT")
+        t.setName("VehicleT")
         t.start()
 
     def __run(self):
         while True:
-            log.info("track")
-            self.__ctx.invoke_tracker_resolve(1, 1)
+            log.info("vehicle")
             time.sleep(1)
 
-
+    def __tracker_handler(self, x, y):
+        log.info(f"Tracker {x}, {y}")
