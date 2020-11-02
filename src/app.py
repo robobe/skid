@@ -9,13 +9,18 @@ import signal
 
 def run():
     ctx = context.context()
-    print(id(ctx))
-    tracker = vision.tracker()
+    ctx.on_tracker_resolved += cb
+    ctx.invoke_tracker_resolve(1,2)
+    
+    exit()
+    vehicle = Vehicle.vehicle(ctx)
+    tracker = vision.tracker(ctx)
+    exit()
     tracker.start()
-
-    vehicle = Vehicle.vehicle()
     vehicle.start()
 
+def cb(x,y):
+    print(x)
 
 def __init_logging():
     config_file = os.path.join(os.path.dirname(__file__), "log.config")

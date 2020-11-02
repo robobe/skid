@@ -1,7 +1,10 @@
 import logging
 import traceback
+import threading
 
 log = logging.getLogger(__name__)
+
+lock = threading.Lock()
 
 class SingletonMeta(type):
     """
@@ -18,8 +21,10 @@ class SingletonMeta(type):
         the returned instance.
         """
         if cls not in cls._instances:
-            instance = super().__call__(*args, **kwargs)
-            cls._instances[cls] = instance
+            with lock:
+              if cls not in cls._instances:
+                instance = super().__call__(*args, **kwargs)
+                cls._instances[cls] = instance
         return cls._instances[cls]
 
 
@@ -29,19 +34,13 @@ class EventHook(object):
 
   def __iadd__(self, handler):
     self.__handlers.append(handler)
+    return self
 
   def __isub__(self, handler):
-    self.__handlers.remove(handler)
+    if handler in self.__handlers:
+      self.__handlers.remove(handler)
+    return self
 
   def fire(self, *args, **kwargs):
     for handler in self.__handlers:
-        try:
-            handler(*args, **kwargs)
-        except:
-            log.error("Event invoke failed")
-            log.error(traceback.print_exc())
-
-  def clearObjectHandlers(self, inObject):
-    for theHandler in self.__handlers:
-      if theHandler.im_self == inObject:
-          self.__handlers.remove(theHandler)
+      handler(*args, **kwargs)

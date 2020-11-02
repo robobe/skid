@@ -8,9 +8,12 @@ log = logging.getLogger(__name__)
 
 
 class tracker(metaclass=SingletonMeta):
-    def __init__(self):
-        self.__ctx = context.context()
+    def __init__(self, ctx):
+        self.__ctx = ctx
+        self.__run()
         
+    def ctx(self):
+        return self.__ctx
 
     def start(self):
         t = threading.Thread(target=self.__run)

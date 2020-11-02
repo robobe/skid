@@ -8,10 +8,12 @@ log = logging.getLogger(__name__)
 
 
 class vehicle(metaclass=SingletonMeta):
-    def __init__(self):
-        ctx = context.context()
-        print(id(ctx))
-        ctx.on_tracker_resolved += self.__tracker_handler
+    def __init__(self, ctx):
+        self.__ctx = ctx
+        self.__ctx.on_tracker_resolved += self.__tracker_handler
+
+    def ctx(self):
+        return self.__ctx
 
     def start(self):
         t = threading.Thread(target=self.__run)
