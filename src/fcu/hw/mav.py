@@ -28,3 +28,14 @@ class MavNode():
             log.info("Waiting for arming...")
             time.sleep(1)
         log.info("Vehicle ready..")
+
+    def steering(self, val):
+        # vehicle.channels.overrides = {'1': 65535, '2': 65535,'3': THROTTLE,'4':65535, '5':65535,'6':65535,'7':65535,'8':65535}
+        self.__vehicle.channels.overrides = {'1': val,
+             '2': 65535,
+             '3': 65535,
+             '4':65535,
+             '5':65535,
+             '6':65535,
+             '7':65535,
+             '8':65535}

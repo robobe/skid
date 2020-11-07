@@ -5,7 +5,7 @@ class lpf():
         self.__history = base
 
     def update(self, value):
-        self.__history += (value * self.__factor)
+        self.__history = self.__history * self.__factor + (1 - self.__factor) * value
         self.__history /= 2
         return self.__history
     

@@ -20,10 +20,10 @@ class vehicle(metaclass=SingletonMeta):
         self.__steering_pid = None
         self.__x_lpf = lpf()
         self.__init_pid()
-        self.__pid_norm_pwm = map_utils(-1, 1, 1000, 2000)
+        self.__pid_norm_pwm = map_utils(-1, 1, 2000, 1000)
 
     def __init_pid(self):
-        self.__steering_pid = PID()
+        self.__steering_pid = PID(P=0.5, I=0.1)
         self.__steering_pid.SetPoint = 0
 
     def start(self):
@@ -35,7 +35,7 @@ class vehicle(metaclass=SingletonMeta):
 
     def __run(self):
         log.info("Vehicle handler start")
-        # self.__mavlink.connect()
+        self.__mavlink.connect()
         while True:
             # log.info("vehicle")
             time.sleep(1)
@@ -43,5 +43,6 @@ class vehicle(metaclass=SingletonMeta):
     def __tracker_handler(self, x, y):
         x = self.__x_lpf.update(x)
         self.__steering_pid.update(x)
-        pwm =  round(self.__pid_norm_pwm.map_range(self.__steering_pid.output), 0)
+        pwm =  int(self.__pid_norm_pwm.map_range(self.__steering_pid.output))
         log.info(f"Tracker {x}, {pwm}")
+        self.__mavlink.steering(pwm)
