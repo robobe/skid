@@ -6,7 +6,8 @@ from utils.py_tools import EventHook
 log = logging.getLogger(__name__)
 
 class lk():
-    def __init__(self):
+    def __init__(self, name="lk"):
+        self.__name = name
         self.__old_frame = None
         self.__old_points = np.array([[]])
         self.__lk_params = dict(winSize = (15, 15),
@@ -37,4 +38,4 @@ class lk():
 
         x, y = new_points.ravel()
         cv2.circle(frame, (x, y), 5, (0, 255, 0), -1)
-        self.on_tracker_resolve.fire(x, y)
+        self.on_tracker_resolve.fire(self.__name, x, y)

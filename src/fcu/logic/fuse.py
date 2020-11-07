@@ -19,17 +19,19 @@ class fuse(metaclass=SingletonMeta):
         self.__ctx = context.context()
         self.__camera = video_stream.VideoStream()
         self.__frame = None
-        self.__tracker = lk()
+        self.__trackers = [lk()]
         viewer.on_point_selected += self.__point_selected_handler
-        self.__tracker.on_tracker_resolve += self.__tracker_resolve_handler
+        for t in self.__trackers:
+            t.on_tracker_resolve += self.__tracker_resolve_handler
         self.__run()
         
     #region cb
-    def __tracker_resolve_handler(self, x, y):
+    def __tracker_resolve_handler(self, name, x, y):
         self.__ctx.invoke_tracker_resolve(x, y)
     
     def __point_selected_handler(self, x, y):
-        self.__tracker.start(self.__frame, x, y)
+        for t in self.__trackers:
+            t.start(self.__frame, x, y)
         log.warn(x)
 
     #endregion cb
@@ -47,8 +49,9 @@ class fuse(metaclass=SingletonMeta):
             if not ret:
                 continue
             
-            if self.__tracker.status:
-                self.__tracker.resolve(self.__frame)
+            for t in self.__trackers:
+                if t.status:
+                    t.resolve(self.__frame)
 
             viewer.show(self.__frame)
             
