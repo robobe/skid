@@ -21,10 +21,10 @@ class SingletonMeta(type):
         the returned instance.
         """
         if cls not in cls._instances:
-            with lock:
-              if cls not in cls._instances:
-                instance = super().__call__(*args, **kwargs)
-                cls._instances[cls] = instance
+            #with lock:
+            if cls not in cls._instances:
+              instance = super().__call__(*args, **kwargs)
+              cls._instances[cls] = instance
         return cls._instances[cls]
 
 

@@ -9,21 +9,30 @@ from utils.rc_tools import lpf, map_utils
 from fcu import context
 from fcu.hw.mav import MavNode
 from utils.pid import PID
+from fcu.settings import Settings
 
 log = logging.getLogger(__name__)
 
 class vehicle(metaclass=SingletonMeta):
     def __init__(self):
+        log.info("Vehicle start")
         self.__ctx = context.context()
+        self.settings = Settings()
         self.__ctx.on_tracker_resolved += self.__tracker_handler
         self.__mavlink = MavNode()
         self.__steering_pid = None
         self.__x_lpf = lpf()
         self.__init_pid()
         self.__pid_norm_pwm = map_utils(-1, 1, 2000, 1000)
+        log.info("Vehicle start1")
 
     def __init_pid(self):
-        self.__steering_pid = PID(P=0.5, I=0.1)
+        p = self.settings.get("steering_pid_p")
+        self.__steering_pid = PID(P=p,
+             I=self.settings["steering_pid_i"],
+             D=self.settings["steering_pid_d"])
+        
+        log.info(f"PID p:{p}")
         self.__steering_pid.SetPoint = 0
 
     def start(self):
