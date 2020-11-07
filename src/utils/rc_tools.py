@@ -1,4 +1,14 @@
 
+class lpf():
+    def __init__(self, base=0, factor=0.8):
+        self.__factor = factor
+        self.__history = base
+
+    def update(self, value):
+        self.__history += (value * self.__factor)
+        self.__history /= 2
+        return self.__history
+    
 class map_utils():
     def __init__(self, in_lower, in_upper, out_lower, out_upper):
         self.__in_l = in_lower
@@ -12,15 +22,17 @@ class map_utils():
         value)
 
 def norm(in_range: tuple, out_range: tuple, value):
-    in_lower, in_upper = in_range
-    out_lower, out_upper = out_range
-    ratio = value / in_upper - in_lower
-    result = out_lower + ratio * (out_upper-out_lower)
+    inLower, inUpper = in_range
+    outLower, outUpper = out_range
+    inSpan = inUpper - inLower
+    outSpan = outUpper - outLower
+    scaled = float(value-inLower)/ float(inSpan)
+    result = outLower + (scaled * outSpan)
     return result
 
 if __name__ == "__main__":
-    r = norm((0,640), (-1,1), 640)
+    r = norm((0,640), (-1,1), 320)
     print(r)
 
-    m = map_utils(0, 640, -1, 1)
-    print(m.map_range(320))
+    m = map_utils(-1, 1, 1000, 2000)
+    print(m.map_range(0))
