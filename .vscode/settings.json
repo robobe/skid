@@ -8,7 +8,8 @@
     "cSpell.ignoreWords": [
         "cap",
         "cap gstreamer",
-        "gstreamer"
+        "gstreamer",
+        "mavlink"
     ],
     "files.exclude": {
         "**/.git": true,
