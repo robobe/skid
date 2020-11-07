@@ -11,9 +11,9 @@ import signal
 def run():
     ctx = context.context()
     vehicle = Vehicle.vehicle()
-    tracker = fuse.tracker()
+    sensors = fuse.fuse()
     
-    tracker.start()
+    sensors.start()
     vehicle.start()
 
 def __init_logging():

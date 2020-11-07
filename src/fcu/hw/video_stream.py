@@ -12,6 +12,7 @@ class VideoStream():
         self.__source.start()
 
     def read(self):
+        cv2.waitKey(100)
         return self.__source.read()
 
     
