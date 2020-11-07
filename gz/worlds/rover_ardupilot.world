@@ -16,8 +16,13 @@
           <contact_surface_layer>0.0</contact_surface_layer>
         </constraints>
       </ode>
-      <real_time_update_rate>0</real_time_update_rate>
-      <max_step_size>0.0025</max_step_size>
+      <!-- Fastes -->
+      <!-- <real_time_update_rate>0</real_time_update_rate>
+      <max_step_size>0.0025</max_step_size> -->
+      <!-- normal -->
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
     </physics>
 
     <include>
@@ -96,7 +101,7 @@
       </include>
     </model>
 
-<actor name="animated_box">
+    <!-- <actor name="animated_box">
         <skin>
         <filename>walk.dae</filename>
       </skin>
@@ -126,10 +131,11 @@
              </waypoint>
           </trajectory>
         </script>
-      </actor>
+      </actor> -->
+
   </world>
 
-  <light name="spot" type="directional">
+  <!-- <light name="spot" type="directional">
     <cast_shadows>false</cast_shadows>
     <pose>0 0 -1 0 0 0</pose>
     <diffuse>1 1 1 1</diffuse>
@@ -141,5 +147,6 @@
       <quadratic>0.001</quadratic>
     </attenuation>
     <direction>0 0. 1</direction>
-  </light>
+  </light> -->
+
 </sdf>

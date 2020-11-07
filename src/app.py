@@ -3,24 +3,18 @@ import json
 import logging.config
 import os
 import sys
-from fcu import vision, context, vehicle as Vehicle
+from fcu import context
+from fcu.logic import fuse, vehicle as Vehicle
 import signal
 
 
 def run():
     ctx = context.context()
-    ctx.on_tracker_resolved += cb
-    ctx.invoke_tracker_resolve(1,2)
+    vehicle = Vehicle.vehicle()
+    tracker = fuse.tracker()
     
-    exit()
-    vehicle = Vehicle.vehicle(ctx)
-    tracker = vision.tracker(ctx)
-    exit()
     tracker.start()
     vehicle.start()
-
-def cb(x,y):
-    print(x)
 
 def __init_logging():
     config_file = os.path.join(os.path.dirname(__file__), "log.config")

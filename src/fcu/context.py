@@ -7,7 +7,7 @@ from utils.py_tools import EventHook
 log = logging.getLogger(__name__)
 
 
-class context():
+class context(metaclass=SingletonMeta):
     def __init__(self):
         self.on_tracker_resolved = EventHook()
 

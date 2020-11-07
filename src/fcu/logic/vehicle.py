@@ -1,19 +1,19 @@
 import logging
-from utils.py_tools import SingletonMeta
+import os
+import sys
 import threading
 import time
+sys.path.append(os.path.join(os.path.basename(__file__), ".."))
+from utils.py_tools import SingletonMeta
 from fcu import context
 
 log = logging.getLogger(__name__)
 
 
 class vehicle(metaclass=SingletonMeta):
-    def __init__(self, ctx):
-        self.__ctx = ctx
+    def __init__(self):
+        self.__ctx = context.context()
         self.__ctx.on_tracker_resolved += self.__tracker_handler
-
-    def ctx(self):
-        return self.__ctx
 
     def start(self):
         t = threading.Thread(target=self.__run)
