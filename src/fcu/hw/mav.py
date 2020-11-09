@@ -16,12 +16,12 @@ class MavNode():
     #     self.connect()
 
     def connect(self):
-        self.__vehicle = connect(self.__cs, wait_ready=True)
+        self.__vehicle = connect(self.__cs, wait_ready=False)
         while not self.__vehicle.is_armable:
             log.warn("waiting for vehicle initialise")
             time.sleep(1)
 
-        self.__vehicle.mode = VehicleMode("MANUAL")
+        self.__vehicle.mode = VehicleMode("STEERING")
         self.__vehicle.armed = True
 
         while not self.__vehicle.armed:

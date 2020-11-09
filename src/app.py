@@ -32,9 +32,6 @@ if __name__ == "__main__":
     __init_logging()
     log = logging.getLogger(__name__)
     log.info('start')
-    # run()
-    from fcu.settings import Settings
-    s = Settings()
-    print(s["steering_pid_p"])
+    run()
     print('Press Ctrl+C')
     signal.pause()

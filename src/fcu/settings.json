@@ -1,5 +1,5 @@
 {
-    "steering_pid_p": 0.5,
-    "steering_pid_i": 0.1,
-    "steering_pid_d": 0
+    "steering_pid_p": 7,
+    "steering_pid_i": 0.05,
+    "steering_pid_d": 0.1
 }

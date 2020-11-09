@@ -43,7 +43,8 @@ class PID:
         self.sample_time = 0.00
         self.current_time = current_time if current_time is not None else time.time()
         self.last_time = self.current_time
-
+        self.__out_min_limit = None
+        self.__out_max_limit = None
         self.clear()
 
     def clear(self):
@@ -97,6 +98,11 @@ class PID:
             self.last_error = error
 
             self.output = self.PTerm + (self.Ki * self.ITerm) + (self.Kd * self.DTerm)
+            if self.__out_min_limit:
+                self.output = max(self.output, self.__out_min_limit)
+
+            if self.__out_max_limit:
+                self.output = min(self.output, self.__out_max_limit)
 
     def setKp(self, proportional_gain):
         """Determines how aggressively the PID reacts to the current error with setting Proportional Gain"""
@@ -127,3 +133,9 @@ class PID:
         Based on a pre-determined sampe time, the PID decides if it should compute or return immediately.
         """
         self.sample_time = sample_time
+
+    def setOutMinLimit(self, value):
+        self.__out_min_limit = value
+
+    def setOutMaxLimit(self, value):
+        self.__out_max_limit = value

@@ -33,6 +33,8 @@ class vehicle(metaclass=SingletonMeta):
              D=self.settings["steering_pid_d"])
         
         log.info(f"PID p:{p}")
+        self.__steering_pid.setOutMinLimit(-1)
+        self.__steering_pid.setOutMaxLimit(1)
         self.__steering_pid.SetPoint = 0
 
     def start(self):
