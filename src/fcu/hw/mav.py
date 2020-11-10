@@ -29,11 +29,11 @@ class MavNode():
             time.sleep(1)
         log.info("Vehicle ready..")
 
-    def steering(self, val):
+    def sticks_controls(self, sterring, throttle):
         # vehicle.channels.overrides = {'1': 65535, '2': 65535,'3': THROTTLE,'4':65535, '5':65535,'6':65535,'7':65535,'8':65535}
-        self.__vehicle.channels.overrides = {'1': val,
+        self.__vehicle.channels.overrides = {'1': sterring,
              '2': 65535,
-             '3': 65535,
+             '3': throttle,
              '4':65535,
              '5':65535,
              '6':65535,

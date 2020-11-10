@@ -6,7 +6,6 @@ class lpf():
 
     def update(self, value):
         self.__history = self.__history * self.__factor + (1 - self.__factor) * value
-        self.__history /= 2
         return self.__history
     
 class map_utils():

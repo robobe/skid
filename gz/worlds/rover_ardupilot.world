@@ -101,6 +101,13 @@
       </include>
     </model>
 
+    <mode name="box1">
+      <pose>15 0 0 0 0 0 </pose>
+      <include>
+        <uri>model://box</uri>
+        <pose>0 0 0 0 0 0</pose>
+      </include>
+    </mode>
     <!-- <actor name="animated_box">
         <skin>
         <filename>walk.dae</filename>

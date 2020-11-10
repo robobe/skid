@@ -20,13 +20,27 @@ class vehicle(metaclass=SingletonMeta):
         self.settings = Settings()
         self.__ctx.on_tracker_resolved += self.__tracker_handler
         self.__mavlink = MavNode()
+        
         self.__steering_pid = None
-        self.__x_lpf = lpf()
+        self.__throttle_pid = None
+        self.__x_lpf = lpf(factor = 0)
+        self.__y_lpf = lpf(factor = 0)
         self.__init_pid()
         self.__pid_norm_pwm = map_utils(-1, 1, 2000, 1000)
+        self.__pid_norm_throttle = map_utils(-1, 1, 1100, 1950)
         log.info("Vehicle start1")
 
     def __init_pid(self):
+        self.__throttle_pid = PID(
+            P=self.settings["throttle_pid_p"],
+            I=self.settings["throttle_pid_i"],
+            D=self.settings["throttle_pid_d"])
+        
+        self.__throttle_pid.setOutMinLimit(-1)
+        self.__throttle_pid.setOutMaxLimit(1)
+
+        self.__throttle_pid.SetPoint = 0
+
         p = self.settings.get("steering_pid_p")
         self.__steering_pid = PID(P=p,
              I=self.settings["steering_pid_i"],
@@ -53,7 +67,12 @@ class vehicle(metaclass=SingletonMeta):
 
     def __tracker_handler(self, x, y):
         x = self.__x_lpf.update(x)
+        y = self.__y_lpf.update(y)
+
         self.__steering_pid.update(x)
-        pwm =  int(self.__pid_norm_pwm.map_range(self.__steering_pid.output))
-        log.info(f"Tracker {x}, {pwm}")
-        self.__mavlink.steering(pwm)
+        self.__throttle_pid.update(y)
+
+        sterring_pwm = int(self.__pid_norm_pwm.map_range(self.__steering_pid.output))
+        throttle_pwm = int(self.__pid_norm_throttle.map_range(self.__throttle_pid.output))
+        log.info(f"Tracker {x},{y}, throttle: {throttle_pwm}, sterring: {sterring_pwm} ")
+        self.__mavlink.sticks_controls(sterring_pwm, throttle_pwm)
